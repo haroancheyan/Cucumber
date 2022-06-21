@@ -10,13 +10,13 @@ Feature: Tv Purchase
     When user search Tv and choose
     And user add Tv to add to cart
     Then user validates confirmation message
-
+@Sanity @Haroan
   Scenario: Tv list
     When user search Tv and choose by one dim list
       | LG TV | SAMSUNG TV | SONY TV |
     And user add Tv to add to cart
     Then user validates confirmation message
-
+@Sanity @Haroan
   Scenario: Tv map
     When user search Tv and choose by one dim map
       | phone1 | LG TV      |

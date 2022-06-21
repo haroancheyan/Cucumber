@@ -14,6 +14,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.edge.EdgeDriver;
 
+import com.flipkart.objectrepository.MobilePurchasePage;
+import com.flipkart.resources.Commonactions;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -21,26 +23,24 @@ import cucumber.api.java.en.When;
 import io.cucumber.datatable.DataTable;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class MobilePurchaseSteps {
+public class MobilePurchaseSteps extends Commonactions{
 	
-	static WebDriver driver;
+	Commonactions c = new Commonactions();
+	MobilePurchasePage m = new MobilePurchasePage();
+	
 	
 	@Given("User launch flipkart application")
 	public void user_launch_flipkart_application() {
-		WebDriverManager.edgedriver().setup();
-		driver = new EdgeDriver();
-		driver.get("https://www.flipkart.com/");
-		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(60,TimeUnit.SECONDS);
+		
 	   }
 
 	@Given("user abel to login flipkart credentials")
 	public void user_abel_to_login_flipkart_credentials() {
 		System.out.println("login");
 		try {
-        WebElement log = driver.findElement(By.xpath("//button[@class='_2KpZ6l _2doB4z']"));
-	    log.isDisplayed();
-	    log.click();
+        //WebElement closeIcon = driver.findElement(By.xpath("//button[@class='_2KpZ6l _2doB4z']"));
+        m.getCloseIcon().isDisplayed();
+        m.getCloseIcon().click();
 		}catch (Exception e) {
 			System.out.println("login not required");
 		}
@@ -50,16 +50,15 @@ public class MobilePurchaseSteps {
 	@When("user search mobile and choose")
 	public void user_search_mobile_and_choose() {
 		System.out.println("search");
-		driver.findElement(By.name("q")).sendKeys("Realme",Keys.ENTER);
-		WebElement mobileName = driver.findElement(By.xpath("(//div[contains(@class,'_4rR01T')])[2]"));
-		mobileName.click();
+		//WebElement search =driver.findElement(By.name("q"));
+		c.insertText(m.getSearch(), "realme");
+		//WebElement mobileName = driver.findElement(By.xpath("(//div[contains(@class,'_4rR01T')])[2]"));
+		m.getMobileName().click();
 	}
 
 	@When("user add mobile to add to cart")
 	public void user_add_mobile_to_add_to_cart() {
-		Set<String> id = driver.getWindowHandles();
-		List<String> child = new ArrayList<>(id);
-		driver.switchTo().window(child.get(1));
+		
 		
 		
 		
@@ -67,16 +66,15 @@ public class MobilePurchaseSteps {
 
 	@Then("user validates confirmation message")
 	public void user_validates_confirmation_message() {
-		WebElement buy = driver.findElement(By.xpath("//button[contains(@class,'_2KpZ6l _2U9uOA ihZ75k _3AWRsL')]"));
-		WebElement spec = driver.findElement(By.xpath("//div[contains(text(),'Specifications')]"));
-		JavascriptExecutor js = (JavascriptExecutor)driver;
-		js.executeScript("arguments[0].scrollIntoView(true)", spec);
-		String text = buy.getText();
+		//WebElement buy = driver.findElement(By.xpath("//button[contains(@class,'_2KpZ6l _2U9uOA ihZ75k _3AWRsL')]"));
+		//WebElement spec = driver.findElement(By.xpath("//div[contains(text(),'Specifications')]"));
+		c.scrolldown(m.getSpec());
+		String text = m.getBuy().getText();
 		
-        Assert.assertTrue(buy.isDisplayed());
+        Assert.assertTrue(m.getBuy().isDisplayed());
 		
 		Assert.assertEquals("BUY NOW", text);
-		driver.quit();
+		
 		
 	}
 	
@@ -84,7 +82,8 @@ public class MobilePurchaseSteps {
 	public void user_search_mobile_and_choose_by_one_dim_list(DataTable dataTable) {
 	   List<String> asList = dataTable.asList();
 	   
-		driver.findElement(By.name("q")).sendKeys(asList.get(0),Keys.ENTER);
+		//driver.findElement(By.name("q")).sendKeys(asList.get(0),Keys.ENTER);
+	   c.insertText(m.getSearch(), asList.get(0));
 		WebElement mobileName = driver.findElement(By.xpath("(//div[contains(text(),'"+asList.get(0)+"')])[2]"));
 		String pd = mobileName.getText();
 		System.out.println("mobile name is :"+pd);
@@ -94,8 +93,7 @@ public class MobilePurchaseSteps {
 	@When("user search mobile and choose by one dim map")
 	public void user_search_mobile_and_choose_by_one_dim_map(DataTable dataTable) {
 	    Map<String, String> asMap = dataTable.asMap(String.class, String.class);
-	   
-		driver.findElement(By.name("q")).sendKeys(asMap.get("phone3"),Keys.ENTER);
+	    c.insertText(m.getSearch(), asMap.get("phone3"));
 		WebElement mobileName = driver.findElement(By.xpath("(//div[contains(text(),'"+asMap.get("phone3")+"')])[2]"));
 		String pd = mobileName.getText();
 		System.out.println("mobile name is :"+pd);
@@ -104,8 +102,8 @@ public class MobilePurchaseSteps {
 	
 	@When("user search mobile and choose by {string}")
 	public void user_search_mobile_and_choose_by(String name) {
-		
-		driver.findElement(By.name("q")).sendKeys(name,Keys.ENTER);
+		c.insertText(m.getSearch(), name);
+		//driver.findElement(By.name("q")).sendKeys(name,Keys.ENTER);
 		WebElement mobileName = driver.findElement(By.xpath("(//div[contains(text(),'"+name+"')])[2]"));
 		String pd = mobileName.getText();
 		System.out.println("mobile name is :"+pd);

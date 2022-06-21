@@ -11,7 +11,7 @@ import cucumber.api.junit.Cucumber;
                      plugin = "html:target",
                      monochrome = true,
                      dryRun = false,
-                     tags= {"@Sanity","@Smoke"})
+                     tags= {"@Sanity","@Haroan"})
 
 public class TestRunner {
 
