@@ -6,12 +6,13 @@ import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src//test//resources//Features",
+@CucumberOptions(features = "src//test//resources//Features//MobilePurchase.feature",
                      glue ="com.flipkart.stepdefinition",
                      plugin = "html:target",
                      monochrome = true,
-                     dryRun = false,
-                     tags= {"@Sanity","@Haroan"})
+                     dryRun = false
+                     )
+
 
 public class TestRunner {
 

@@ -17,7 +17,7 @@ public class Commonactions {
 	
 	public static WebDriver driver;
 	
-	public  void launch() {
+	public void launch() {
 		WebDriverManager.edgedriver().setup();
 		driver = new EdgeDriver();
 		driver.get("https://www.flipkart.com/");

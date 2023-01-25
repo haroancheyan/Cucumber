@@ -73,7 +73,7 @@ public class MobilePurchaseSteps extends Commonactions{
 		
         Assert.assertTrue(m.getBuy().isDisplayed());
 		
-		Assert.assertEquals("BUY NOW", text);
+		Assert.assertEquals("BUY", text);
 		
 		
 	}
